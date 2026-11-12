@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>池さんリール 初回5本｜台本レビュー</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fff;
+      --canvas: #e9edf3;
+      --navy: #0f1f3a;
+      --ink: #24334b;
+      --muted: #4f6178;
+      --line: #d4deeb;
+      --blue: #2a5080;
+      --blue-bg: #eef2f8;
+      --green: #216343;
+      --green-bg: #ecf6f0;
+      --amber: #79531a;
+      --amber-bg: #fdf7e6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font: 16px/1.8 Inter, "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+      overflow-wrap: anywhere;
+    }
+    h1, h2, h3, p { margin: 0; }
+    a { color: var(--blue); text-underline-offset: .2em; }
+    :focus-visible { outline: 3px solid #3975b9; outline-offset: 4px; }
+    .page { width: min(1110px, calc(100% - 48px)); margin: 34px auto 64px; }
+    .hero {
+      padding: clamp(26px, 5vw, 54px);
+      background: linear-gradient(120deg, #0f1f3a, #23446e);
+      color: white;
+      border-radius: 18px;
+    }
+    .date { color: #d0dff3; font-size: 14px; font-variant-numeric: tabular-nums; }
+    h1 { margin: 9px 0 10px; font-size: clamp(28px, 4vw, 44px); line-height: 1.35; letter-spacing: -.035em; }
+    .hero p { color: #e1e9f5; }
+    .layout { display: grid; grid-template-columns: 216px minmax(0, 1fr); gap: 22px; align-items: start; margin-top: 22px; }
+    nav { position: sticky; top: 18px; border-radius: 14px; background: var(--paper); padding: 15px; }
+    nav a { display: flex; align-items: baseline; gap: 10px; padding: 8px 9px; border-radius: 7px; text-decoration: none; color: var(--navy); }
+    nav a:hover { background: var(--blue-bg); }
+    nav a span { color: var(--blue); font-size: 13px; font-variant-numeric: tabular-nums; }
+    nav .export-link { border-top: 1px solid var(--line); border-radius: 0; margin-top: 8px; padding-top: 12px; color: var(--blue); }
+    .panels { display: grid; gap: 20px; }
+    .panel { background: var(--paper); border-radius: 14px; padding: clamp(18px, 3.2vw, 34px); scroll-margin-top: 18px; }
+    .panel:target { box-shadow: 0 0 0 2px #557cab; }
+    .section-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .number { font-size: 38px; line-height: 1; color: var(--blue); font-weight: 700; font-variant-numeric: tabular-nums; }
+    h2 { color: var(--navy); font-size: clamp(21px, 3vw, 28px); line-height: 1.4; }
+    .tag { display: inline-block; margin-top: 5px; padding: 1px 9px; font-size: 13px; color: var(--green); background: var(--green-bg); border-radius: 5px; }
+    .draft { color: var(--amber); background: var(--amber-bg); }
+    .question { padding: 13px 16px; background: var(--blue-bg); border-left: 4px solid var(--blue); border-radius: 6px; }
+    .question h3, .voice h3 { font-size: 14px; color: var(--muted); }
+    .question p { font-size: 18px; font-weight: 700; color: var(--navy); }
+    .question-inbox { max-width: 420px; padding: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); text-align: center; }
+    .question-inbox p { padding: 14px 16px; }
+    .voice { margin: 19px 0; }
+    .voice p { margin-top: 11px; white-space: pre-line; }
+    details { padding: 9px 0 14px; }
+    summary { cursor: pointer; color: var(--blue); }
+    details p { margin-top: 7px; font-size: 15px; }
+    .feedback { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 15px; }
+    .feedback label, .export label { display: block; color: var(--navy); font-weight: 700; margin-bottom: 6px; }
+    textarea { display: block; width: 100%; min-height: 96px; resize: vertical; border: 1px solid #aebdd1; border-radius: 8px; padding: 10px 12px; font: inherit; background: #fafcfe; color: var(--ink); }
+    textarea::placeholder { color: var(--muted); }
+    .save-status, .note { color: var(--muted); font-size: 14px; }
+    .save-status { display: block; min-height: 24px; margin-top: 3px; }
+    .actions { display: flex; gap: 9px; flex-wrap: wrap; margin: 14px 0 8px; }
+    button { border: 1px solid var(--blue); border-radius: 7px; padding: 8px 14px; min-height: 44px; background: var(--blue); color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    button.secondary { color: var(--blue); background: white; }
+    button:hover { filter: brightness(.94); }
+    .export .note { margin-top: 6px; }
+    #export-preview { margin-top: 12px; }
+    @media (max-width: 710px) {
+      .page { width: calc(100% - 24px); margin: 12px auto 32px; }
+      .layout { grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 12px; }
+      nav { position: static; display: flex; flex-wrap: wrap; padding: 8px; }
+      nav a { padding: 6px 9px; font-size: 14px; }
+      nav .export-link { border-top: 0; margin-top: 0; padding-top: 6px; }
+      .number { font-size: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="date">2026年11月12日</div>
+      <h1>池さんリール 初回5本</h1>
+      <p>池さんが、化粧品の選び方や使い方の疑問に答えます。</p>
+    </header>
+    <main class="layout">
+      <nav aria-label="台本の目次">
+        <a href="#script-1"><span>01</span> 成分表の順番</a>
+        <a href="#script-2"><span>02</span> 日焼け止めの量</a>
+        <a href="#script-3"><span>03</span> 美容液の成分</a>
+        <a href="#script-4"><span>04</span> 化粧水のとろみ</a>
+        <a href="#script-5"><span>05</span> 無添加表示</a>
+        <a class="export-link" href="#comments-export">コメントをまとめる</a>
+      </nav>
+
+      <div class="panels">
+        <section class="panel script" id="script-1" aria-labelledby="title-1">
+          <header class="section-head"><span class="number" aria-hidden="true">01</span><div><h2 id="title-1">成分表の順番</h2><span class="tag">確認済みの案</span></div></header>
+          <div class="question"><h3>質問カード</h3><p>化粧品の成分表って、量が多い順なんですか？</p></div>
+          <div class="voice">
+            <h3>池さんの台本</h3>
+            <p>基本は、量の多い順です。
+でも、最後までそうとは限りません。</p>
+            <p>1％以下の成分は、成分表の最後に、量の順番に関係なく書けます。</p>
+            <p>たとえば、0.3％の成分が、0.8％の成分より先に書かれていることもあります。</p>
+            <p>しかも、「ここから1％以下」という線はありません。
+だから、後ろにあるからといって、何％入っているかは分かりません。少ないから意味がない、とも言えないんです。</p>
+            <p>気になる成分を見つけたら、
+何のために入っているかを見てみてください。</p>
+            <p>「じゃあ、今の自分の肌には、どんな成分を選べばいい？」</p>
+            <p>そう思ったら、プロフィールの肌分析も使ってみてください。
+今の肌に合わせて提案される成分と、その理由が見られます。</p>
+          </div>
+          <details><summary>画面表示・根拠</summary><p>0.3％と0.8％は、表示順を説明するための例。国内向け化粧品の全成分表示を扱います。<a href="https://www.cftc.jp/kiyaku/kiyaku02.html" target="_blank" rel="noopener noreferrer">化粧品の表示に関する公正競争規約施行規則</a></p></details>
+          <div class="feedback"><label for="comment-1">①へのコメント</label><textarea id="comment-1" aria-describedby="status-1" placeholder="修正したい箇所や、撮影時のメモ"></textarea><span class="save-status" id="status-1" role="status"></span></div>
+        </section>
+
+        <section class="panel script" id="script-2" aria-labelledby="title-2">
+          <header class="section-head"><span class="number" aria-hidden="true">02</span><div><h2 id="title-2">日焼け止めの量</h2><span class="tag">確認済みの案</span></div></header>
+          <div class="voice">
+            <h3>池さんの台本</h3>
+            <p>日焼け止め、いつも出してるその量、足りてますか？</p>
+            <p>日焼け止めは、量が足りないと、紫外線を防ぐ効果が落ちます。</p>
+            <p>パッケージのSPFは、決まった量を塗って測った数字です。
+ある研究では、普段どおりに塗った量は、平均で試験の約半分でした。</p>
+            <p>じゃあ、顔全体の一回分って、どれくらい？
+この日焼け止めなら、目安はこれくらいです。</p>
+            <p>明日の朝は、使っている日焼け止めの目安量を出して、
+いつもの量と比べてみてください。</p>
+          </div>
+          <details open><summary>冒頭の見せ方・実演・根拠</summary><p>冒頭は池さんがカメラを見て、視聴者に直接「足りてますか？」と問いかけます。質問カードは出しません。</p><p>「これくらいです」で一回分を手に出し、顔のどこまで広げるかを見せます。実演する製品と、その公式の目安量・塗る範囲は撮影前に確認します。</p><p>研究の「約半分」は、普段どおりに塗った量の平均値と、SPF試験の塗布量を比較した結果です。<a href="https://pubmed.ncbi.nlm.nih.gov/23050556/" target="_blank" rel="noopener noreferrer">塗布量とSPFを比較した研究</a></p></details>
+          <div class="feedback"><label for="comment-2">②へのコメント</label><textarea id="comment-2" aria-describedby="status-2" placeholder="修正したい箇所や、撮影時のメモ"></textarea><span class="save-status" id="status-2" role="status"></span></div>
+        </section>
+
+        <section class="panel script" id="script-3" aria-labelledby="title-3">
+          <header class="section-head"><span class="number" aria-hidden="true">03</span><div><h2 id="title-3">良い成分を全部入れた美容液</h2><span class="tag draft">確認前の案</span></div></header>
+          <div class="question"><h3>質問カード</h3><p>話題の成分を、一本に全部入れれば？</p></div>
+          <div class="voice">
+            <h3>池さんの台本</h3>
+            <p>美容液って、人気の成分が全部入っていた方が、いいと思いませんか？</p>
+            <p>でも、成分を集めて混ぜるだけでは完成しません。
+成分には、水となじみやすいもの、油となじみやすいものがあります。</p>
+            <p>クリームでは、水と油の片方を細かい粒にして、混じり合った状態にします。
+これが「乳化」です。</p>
+            <p>同じ材料でも、作り方で状態が変わることがあります。
+時間がたっても状態を保てるか。そこまで確かめるんです。</p>
+            <p>美容液を選ぶときは、まず、今の肌で何をケアしたいか。</p>
+            <p>どんな成分を選べばいいか迷ったら、プロフィールの肌分析へ。
+今の肌に提案された成分と、その理由を見てみてください。</p>
+          </div>
+          <div class="feedback"><label for="comment-3">③へのコメント</label><textarea id="comment-3" aria-describedby="status-3" placeholder="修正したい箇所や、撮影時のメモ"></textarea><span class="save-status" id="status-3" role="status"></span></div>
+        </section>
+
+        <section class="panel script" id="script-4" aria-labelledby="title-4">
+          <header class="section-head"><span class="number" aria-hidden="true">04</span><div><h2 id="title-4">化粧水のとろみ</h2><span class="tag draft">確認前の案</span></div></header>
+          <div class="question question-inbox"><p>とろとろと、さらさら。<br>美容成分がよく浸透する化粧水はどっち？</p></div>
+          <div class="voice">
+            <h3>池さんの台本</h3>
+            <p>とろとろと、さらさら。
+美容成分がよく浸透する化粧水はどっち？</p>
+            <p>実は、どっちがよく浸透するか、とろみだけでは分かりません。</p>
+            <p>じゃあ、何のためのとろみ？
+理由の一つは、使い心地を整えるためです。
+増粘剤という成分を使って、のびや手触りを調整します。</p>
+            <p>美容成分の届き方には、成分の性質や、化粧水全体の配合も関わります。</p>
+            <p>化粧水を選ぶときは、使い心地の好みと、ケアしたい肌悩みを分けて考えてみてください。</p>
+            <p>今の肌悩みに合う成分が分からなければ、プロフィールの肌分析も参考にしてみてください。</p>
+          </div>
+          <details><summary>冒頭の見せ方・根拠</summary><p>最初の画面に、質問文だけを載せた質問箱風の画像を出します。池さんが質問を読み上げ、そのまま答えます。続けて、とろとろとさらさらの手元を左右に並べ、液の動きで質感の違いを見せます。冒頭から「浸透は角質層まで」を表示します。</p><p>増粘剤は粘度や使用感を調整するために使われます。美容成分の届き方には、ほかの配合成分も関わります。<a href="https://www.sccj-ifscc.com/library/glossary_detail/967" target="_blank" rel="noopener noreferrer">日本化粧品技術者会の用語集</a>・<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8156363/" target="_blank" rel="noopener noreferrer">ナイアシンアミドの配合と浸透を調べた研究</a></p></details>
+          <div class="feedback"><label for="comment-4">④へのコメント</label><textarea id="comment-4" aria-describedby="status-4" placeholder="修正したい箇所や、撮影時のメモ"></textarea><span class="save-status" id="status-4" role="status"></span></div>
+        </section>
+
+        <section class="panel script" id="script-5" aria-labelledby="title-5">
+          <header class="section-head"><span class="number" aria-hidden="true">05</span><div><h2 id="title-5">無添加表示の見方</h2><span class="tag draft">確認前の案</span></div></header>
+          <div class="question question-inbox"><p>化粧品って、無添加なら肌にいいんですか？</p></div>
+          <div class="voice">
+            <h3>池さんの台本</h3>
+            <p>化粧品って、無添加なら肌にいいんですか？</p>
+            <p>「無添加」を見たら、まず「何が？」です。
+どの成分を入れていないかを伝える表示なんです。</p>
+            <p>たとえば「香料無添加」と「着色料無添加」。
+同じ「無添加」でも、指している成分は違います。</p>
+            <p>避けたい成分があるときは、選ぶ手がかりになります。
+自分の肌に合うものを選ぶときは、何が入っているかも見てみてください。</p>
+            <p>乾燥など、今の肌悩みからケアを選びたいときは、プロフィールの肌分析も参考になります。</p>
+          </div>
+          <details><summary>冒頭の見せ方・根拠</summary><p>冒頭は質問文だけの画像を出し、池さんが読み上げてから答えます。例を話すときに「香料無添加」「着色料無添加」を順に表示します。</p><p>化粧品の無添加表示では、配合していない成分や成分群を明示します。<a href="https://www.cftc.jp/kiyaku/kiyaku02-4.html" target="_blank" rel="noopener noreferrer">化粧品公正取引協議会の表示ルール</a></p></details>
+          <div class="feedback"><label for="comment-5">⑤へのコメント</label><textarea id="comment-5" aria-describedby="status-5" placeholder="修正したい箇所や、撮影時のメモ"></textarea><span class="save-status" id="status-5" role="status"></span></div>
+        </section>
+
+        <section class="panel export" id="comments-export" aria-labelledby="export-title">
+          <h2 id="export-title">コメントをまとめる</h2>
+          <p class="note">入力したコメントは、ご自身のブラウザに自動保存されます。提出するときは、コメントをコピーするか、テキストファイルに保存して共有してください。</p>
+          <div class="actions">
+            <button type="button" id="copy-comments">コメントをコピー</button>
+            <button type="button" class="secondary" id="download-comments">テキストで保存</button>
+          </div>
+          <p class="note" id="export-status" role="status"></p>
+          <div id="export-preview" hidden><label for="manual-copy">コピー用のコメント全文</label><textarea id="manual-copy" readonly rows="6"></textarea></div>
+          <noscript><p>コメントの保存と書き出しには JavaScript を有効にしてください。</p></noscript>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script>
+    const reviewKey = "ike-reels-initial-five-review-20261112:";
+    const scripts = [...document.querySelectorAll(".script")];
+    const exportStatus = document.querySelector("#export-status");
+
+    for (const script of scripts) {
+      const comment = script.querySelector("textarea");
+      const status = script.querySelector(".save-status");
+      const storageKey = reviewKey + comment.id;
+      try {
+        comment.value = localStorage.getItem(storageKey) ?? "";
+        status.textContent = comment.value ? "このブラウザに保存済み" : "";
+      } catch {
+        status.textContent = "自動保存が利用できません。コメントをコピーして保存してください。";
+      }
+      comment.addEventListener("input", () => {
+        try {
+          if (comment.value) {
+            localStorage.setItem(storageKey, comment.value);
+          } else {
+            localStorage.removeItem(storageKey);
+          }
+          status.textContent = comment.value ? "このブラウザに保存済み" : "";
+        } catch {
+          status.textContent = "自動保存が利用できません。コメントをコピーして保存してください。";
+        }
+      });
+    }
+
+    function collectComments() {
+      const entries = scripts.flatMap((script) => {
+        const comment = script.querySelector("textarea").value.trim();
+        if (!comment) return [];
+        const number = script.querySelector(".number").textContent;
+        const title = script.querySelector("h2").textContent;
+        return [`${number} ${title}\n${comment}`];
+      });
+      return entries.length ? `池さんリール 初回5本｜コメント\n\n${entries.join("\n\n")}\n` : "";
+    }
+
+    document.querySelector("#copy-comments").addEventListener("click", async () => {
+      const text = collectComments();
+      const preview = document.querySelector("#export-preview");
+      preview.hidden = true;
+      if (!text) {
+        exportStatus.textContent = "コメントを入力するとコピーできます。";
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        exportStatus.textContent = "コメントをコピーしました。";
+      } catch {
+        preview.hidden = false;
+        const manualCopy = preview.querySelector("textarea");
+        manualCopy.value = text;
+        manualCopy.focus();
+        manualCopy.select();
+        exportStatus.textContent = "下の選択済みのテキストをコピーしてください。";
+      }
+    });
+
+    document.querySelector("#download-comments").addEventListener("click", () => {
+      const text = collectComments();
+      if (!text) {
+        exportStatus.textContent = "コメントを入力すると保存できます。";
+        return;
+      }
+      const url = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "池さんリール初回5本_コメント.txt";
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      exportStatus.textContent = "コメントのテキストファイルを用意しました。";
+    });
+  </script>
+</body>
+</html>
